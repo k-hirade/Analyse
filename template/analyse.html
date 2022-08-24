@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}result{% endblock %}
+{% block content %}
+<div class="search-container">
+    <form action="." method="post" class="">{% csrf_token %}
+        <input type="text" id="keyword" name="username" value="{{username}}" placeholder="username" class="search-box">
+        <input type="hidden" name="submit_token" value="{{ submit_token }}" class="input_box">
+        <button id="search_button" style="height:30px;width:200px;" value="search"><input style="display:none;" type="submit" value="search" class="search-button"></button>
+    </form>
+</div>
+<div>
+  <button type="button" onclick="location.href='http://127.0.0.1:8000'">戻る</button>
+</div>
+<div id="push_result" class="alert" role="alert" style="display:none"></div>tweets
+<div id="negaposi">
+    <!-- {% for n in tweets %}
+    <p>{{ n }}</p>
+    {% endfor %} -->
+    {{ tweets | safe }}
+    <!-- タグとして表示させたい時には{{ 〇〇 |safe }} -->
+<script>
+// 時間をリアルタイム表示する
+$('#search_button').on('click', function () {
+    $('#push_result').removeClass('alert-danger');
+    $('#push_result').removeClass('alert-info');
+    $('#push_result').hide();
+
+    $.ajax({
+    url: "{% url 'push' %}",
+    method: "POST",
+    dataType: 'json',
+    data: {
+        push_type: 'datalist',
+        'search_twieet': $('#negaposi').val(),
+    },
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        var csrfToken = getCookie("csrftoken");
+        xhr.setRequestHeader("X-CSRFToken", csrfToken);
+        }
+    },
+    })
+    .done(function (data) {
+    console.log(data);
+    if (data.result == 'success'){
+        $('#push_result').text('送信中 ' + data.attendance_time);
+        $('#push_result').addClass('alert-info');
+        $('#push_result').show();
+    }
+    });
+});
+</script>
+{% endblock %}

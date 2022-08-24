@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<h2>ログイン</h2>
+<form method="post">
+ {% csrf_token %}
+  {% for error in form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+  {% endfor %}
+  <input type="text" id="inputUserName" name="username" class="form-control" placeholder="ユーザー名" required autofocus>
+  <input type="password" id="inputPassword" name="password" class="form-control" placeholder="パスワード" required>
+  <button class="btn btn-lg btn-primary my-1" type="submit">ログイン</button>
+</form>
+<p>アカウントをお持ちではないですか？<a href="{% url 'signup' %}">サインアップ</a></p>
+{% endblock %}

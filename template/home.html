@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelloTechAcademy</title>
+  </head>
+  <body>
+    {% extends 'base.html' %}
+    {% block title %}Home{% endblock %}
+    {% block content %}
+      <div class="">
+        {% if user.is_authenticated %}
+          <div style="width: 100%;height:30px;">
+            <p class="text" style="float:left;font-size:16px;">ようこそ <span style="text-decoration: underline;">{{ user.username }}</span> さん!</p>
+            <p style="margin:1.111vh 0.625vw;text-align:right;"><a href="{% url 'logout' %}">Log Out</a></p>
+          </div>
+          <div><button type="button" onclick="location.href='http://127.0.0.1:8000/analyse/result/'">診断スタート</button></div>
+        {% else %}
+          <p>ログインしてません</p>
+          <a href="{% url 'login' %}">Log In</a>
+        {% endif %}
+      </div>
+    {% endblock %}
+  </body>
+</html>

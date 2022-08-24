@@ -1,0 +1,10 @@
+仮想環境に入る
+source ./pM_env/bin/activate
+deactivate
+
+mysqlにin
+mysql -u root -p
+\q
+
+管理画面
+http://localhost:8000/admin
